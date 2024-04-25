@@ -1,0 +1,21 @@
+{
+  "name": "root",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "lerna": "^8.1.2"
+  },
+  "scripts": {
+    "bootstrap": "yarn install; lerna bootstrap;",
+    "start": "lerna run start --parallel",
+    "start:frontend": "node -r ./dotenv.config.js node_modules/.bin/lerna run --scope frontend --stream dev",
+    "build:frontend": "node -r ./dotenv.config.js node_modules/.bin/lerna run --scope frontend --stream build",
+    "run:build:frontend": "lerna run start --scope frontend",
+    "start:backend": "node -r ./dotenv.config.js node_modules/.bin/lerna run --scope backend --stream dev",
+    "build:backend": "node -r ./dotenv.config.js node_modules/.bin/lerna run --scope backend --stream build",
+    "run:build:backend": "lerna run start --scope backend"
+  }
+}
