@@ -4,16 +4,16 @@
 > Note: This is based on https://github.com/andrevesdickow/nextjs-lerna
 
 Install [NVM](https://github.com/nvm-sh/nvm?tab=readme-ov-file#install--update-script)
-Setup
+
+Install Node.js and Lerna
 ```bash
-nvm use v20.12.0
+nvm use
 npm install --global lerna
 ```
 
 Start backend and frontend
 ```bash
-yarn start:frontend
-yarn start:backend
+yarn start:backend & yarn start:frontend
 ```
 
 # Modifications
