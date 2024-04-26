@@ -1,5 +1,6 @@
+# Next.js TypeScript frontend + Adonis.js backend + Lerna workspaces
 
-# Setup
+## Setup
 
 > Note: This is based on https://github.com/andrevesdickow/nextjs-lerna
 
@@ -15,8 +16,9 @@ Start backend and frontend
 ```bash
 yarn start:backend & yarn start:frontend
 ```
+Reference: https://yarnpkg.com/getting-started/qa#how-to-share-scripts-between-workspaces
 
-# Modifications
+### Modifications
 
 Create new workspace package in frontend
 ```
@@ -27,3 +29,24 @@ Add a package to frontend
 ```
 yarn add dotenv
 ```
+
+## Unique Network NFTs
+
+### Setup
+
+Generate .env file and populate its value with the mnemonic seed of a Substrate-based account
+```bash
+cp .env.example .env
+```
+
+### Mint NFT on Opal Testnet
+
+```bash
+cd packages/nft
+yarn run build
+node ./dist
+```
+
+View block explorer https://uniquescan.io/opal/
+
+Unique developer support https://t.me/unique_network_support
