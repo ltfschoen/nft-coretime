@@ -21,12 +21,12 @@ Reference: https://yarnpkg.com/getting-started/qa#how-to-share-scripts-between-w
 ### Modifications
 
 Create new workspace package in frontend
-```
+```bash
 cd packages && yarn create next-app mypackage
 ```
 
 Add a package to frontend
-```
+```bash
 yarn add dotenv
 ```
 
@@ -44,9 +44,17 @@ cp .env.example .env
 ```bash
 cd packages/nft
 yarn run build
-node ./dist
+node ./dist/mint.js
 ```
 
 View block explorer https://uniquescan.io/opal/
+
+### View NFT Properties on Opal Testnet
+
+```bash
+cd packages/nft
+yarn run build
+node ./dist/getTokenProperties.js
+```
 
 Unique developer support https://t.me/unique_network_support
