@@ -2,3 +2,4 @@ node_modules/
 .nx/cache
 .DS_Store
 tsconfig.tsbuildinfo
+dist/

@@ -72,6 +72,11 @@ async function main() {
   })
   console.log('result', result)
 
+  // Note: To get a hex-encoded payload, you can use .build. For example:
+  //   const unsignedTxPayload = await sdk.token.create.build({
+  //     collectionId: 2677,
+  //   });
+
   const mintedTokensCount = result?.parsed?.length
   let currentTokenId;
   result.parsed?.forEach((token, index) => {
