@@ -8,6 +8,9 @@ Reference: https://docs.unique.network/build/sdk/tokens.html
 ```bash
 yarn run build
 yarn run mint
+yarn run setTokenPermissions
+yarn run setTokenProperties
+yarn run getTokenProperties
 ```
 * Note: Mint collection fee ~2 OPL, and mint token costs ~0.1 OPL
 * View the tokens minted by going to https://uniquescan.io/opal

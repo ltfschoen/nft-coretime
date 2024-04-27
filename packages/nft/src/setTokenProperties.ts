@@ -5,9 +5,9 @@ import {KeyringProvider} from '@unique-nft/accounts/keyring'
 
 ////////////////////////////////////
 ///
-/// Get Properties for Tokens (e.g. Key/Value pairs) of Collection
+/// Set Properties of Collection
 ///
-/// https://docs.unique.network/build/sdk/tokens.html#get-token-properties
+/// https://docs.unique.network/build/sdk/tokens.html#set-token-properties
 ///
 /// Instructions:
 ///   - Change `collectionId` value to the collection id that you deployed
@@ -34,21 +34,35 @@ async function main() {
   const tokenId = 1
 
   ////////////////////////////////////
-  // Get collection token properties 
+  // Set token properties 
   ////////////////////////////////////
-  const {properties} = await sdk.token.properties({
+
+  const txSetProps = await sdk.token.setProperties.submitWaitResult({
+    address,
     collectionId,
     tokenId,
+    properties: [
+      {
+        key: 'foo',
+        value: 'bar',
+      },
+    ],
   })
 
+  ////////////////////////////////////
+  // Show token properties that were set
+  ////////////////////////////////////
+  const properties = txSetProps.parsed?.properties
+
   if (properties?.length) {
-    properties.forEach((prop) => {
-      console.log(`The value of the key ${prop.key} is ${prop.value}`)
-    })
+    console.log(`The values of the [ ${properties.map((t) => t.propertyKey).join()} ] keys are set`)
   } else {
-    console.log(`No properties`)
+    console.log(`No properties were set`)
     process.exit()
   }
+
+  console.log(`View the collection at https://uniquescan.io/opal/tokens/${collectionId}/${tokenId}`)
+  console.log(`View the extrinsic tx at https://opal.subscan.io/account/${address}`)
 
   process.exit()
 }

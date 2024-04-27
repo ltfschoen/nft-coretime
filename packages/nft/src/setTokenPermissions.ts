@@ -5,9 +5,9 @@ import {KeyringProvider} from '@unique-nft/accounts/keyring'
 
 ////////////////////////////////////
 ///
-/// Get Properties for Tokens (e.g. Key/Value pairs) of Collection
+/// Set Permissions for Properties of a Collection
 ///
-/// https://docs.unique.network/build/sdk/tokens.html#get-token-properties
+/// https://docs.unique.network/build/sdk/tokens.html#set-token-properties
 ///
 /// Instructions:
 ///   - Change `collectionId` value to the collection id that you deployed
@@ -34,21 +34,39 @@ async function main() {
   const tokenId = 1
 
   ////////////////////////////////////
-  // Get collection token properties 
+  // Set permissions for each property in a collection
   ////////////////////////////////////
-  const {properties} = await sdk.token.properties({
+  const txSetPermissions = await sdk.collection.setPropertyPermissions.submitWaitResult({
+    address,
     collectionId,
-    tokenId,
+    propertyPermissions: [
+      {
+        // the property Key to set the permissions for
+        // we then need to set a property that has that Key
+        key: 'foo',
+        permission: {
+          mutable: true,
+          collectionAdmin: true,
+          tokenOwner: true,
+        },
+      },
+    ],
   })
 
-  if (properties?.length) {
-    properties.forEach((prop) => {
-      console.log(`The value of the key ${prop.key} is ${prop.value}`)
-    })
+  ////////////////////////////////////
+  // Show collection permissions that were set
+  ////////////////////////////////////
+  const propertiesPermissions = txSetPermissions.parsed?.propertyPermissions
+
+  if (propertiesPermissions?.length) {
+    console.log(`The values of the [ ${propertiesPermissions.map((t) => t.propertyKey).join()} ] keys are set`)
   } else {
-    console.log(`No properties`)
+    console.log(`No properties were set`)
     process.exit()
   }
+
+  console.log(`View the collection at https://uniquescan.io/opal/tokens/${collectionId}/${tokenId}`)
+  console.log(`View the extrinsic tx at https://opal.subscan.io/account/${address}`)
 
   process.exit()
 }

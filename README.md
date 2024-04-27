@@ -58,3 +58,7 @@ node ./dist/getTokenProperties.js
 ```
 
 Unique developer support https://t.me/unique_network_support
+
+## Unique Docs
+
+https://docs.unique.network/reference

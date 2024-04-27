@@ -84,6 +84,8 @@ async function main() {
     console.log(`Minted token ID #${currentTokenId}/${mintedTokensCount} in collection ${collectionId}`)
     console.log(`View this minted token at https://uniquescan.io/opal/tokens/${collectionId}/${currentTokenId}`)
   });
+
+  process.exit()
 }
 
 main().catch((error) => {
