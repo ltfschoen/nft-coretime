@@ -8,9 +8,13 @@ Reference: https://docs.unique.network/build/sdk/tokens.html
 ```bash
 yarn run build
 yarn run mint
-yarn run setTokenPermissions
+yarn run setCollectionPermissions
+yarn run setTokenPropertyPermissions
 yarn run setTokenProperties
 yarn run getTokenProperties
+yarn run getToken
+yarn run setCollectionTransfersEnabled
+yarn run transferToken
 ```
 * Note: Mint collection fee ~2 OPL, and mint token costs ~0.1 OPL
 * View the tokens minted by going to https://uniquescan.io/opal
@@ -18,8 +22,6 @@ yarn run getTokenProperties
 * TODO
   * in "Advanced Data"
   * how to change sponsored mint size to number other than 2048? 
-  * how to change to "owner can transfer" is true, not false?
   * how to change "Token limit" to number other than 4294967295?
   * how to change "Account token ownership limit" to number other than 100000000?
-  * how to change "Nesting" to yes, instead of no?
   https://uniquescan.io/opal/collections/2677

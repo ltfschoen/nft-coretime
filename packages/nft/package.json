@@ -7,15 +7,19 @@
     "clean": "npx tsc --clean",
     "mint": "node ./dist/mint.js",
     "get-token-properties": "node ./dist/getTokenProperties.js",
+    "set-collection-permissions": "node ./dist/setCollectionPermissions.js",
     "set-token-property-permissions": "node ./dist/setTokenPropertyPermissions.js",
     "set-token-properties": "node ./dist/setTokenProperties.js",
+    "set-collection-transfers-enabled": "node ./dist/setCollectionTransfersEnabled.js",
     "transfer-token": "node ./dist/transferToken.js",
+    "transfer-collection": "node ./dist/transferCollection.js",
     "get-token": "node ./dist/getToken.js"
   },
   "dependencies": {
     "@polkadot/api": "^11.0.2",
     "@unique-nft/accounts": "^0.3.7",
     "@unique-nft/sdk": "^0.7.4",
+    "@unique-nft/substrate-client": "^0.11.6",
     "pino-std-serializers": "^6.2.2",
     "rxjs": "^7.8.1"
   }

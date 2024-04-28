@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import Sdk, { TokenId } from '@unique-nft/sdk'
 import {KeyringProvider} from '@unique-nft/accounts/keyring'
+import { TransferArguments } from '@unique-nft/substrate-client/tokens';
 
 ////////////////////////////////////
 ///
@@ -36,13 +37,14 @@ async function main() {
   ////////////////////////////////////
   // Transfer token 
   ////////////////////////////////////
-  const txTransfer = await sdk.token.transfer.submitWaitResult({
+  const args: TransferArguments = {
     collectionId,
     tokenId,
     address,
     to: address,
     // from: '', // optional `from` account
-  })
+  };
+  const txTransfer = await sdk.token.transfer.submitWaitResult(args)
 
   const parsedTransfer = txTransfer.parsed
 

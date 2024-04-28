@@ -2,12 +2,13 @@ import dotenv from "dotenv";
 dotenv.config();
 import Sdk, { TokenId } from '@unique-nft/sdk'
 import {KeyringProvider} from '@unique-nft/accounts/keyring'
+import { TransferCollectionArguments } from '@unique-nft/substrate-client/tokens';
 
 ////////////////////////////////////
 ///
-/// Set Permissions for Properties of Token in a Collection
+/// Transfer Collection
 ///
-/// https://docs.unique.network/build/sdk/tokens.html#set-token-properties
+/// https://docs.unique.network/reference/sdk-methods.html#overview-12
 ///
 /// Instructions:
 ///   - Change `collectionId` value to the collection id that you deployed
@@ -34,39 +35,29 @@ async function main() {
   const tokenId = 1
 
   ////////////////////////////////////
-  // Set permissions for each property of a token in a collection
+  // Transfer collection from collection owner
   ////////////////////////////////////
-  const txSetPermissions = await sdk.collection.setPropertyPermissions.submitWaitResult({
-    address,
+  const args: TransferCollectionArguments = {
     collectionId,
-    propertyPermissions: [
-      {
-        // the property Key to set the permissions for
-        // we then need to set a property that has that Key
-        key: 'foo',
-        permission: {
-          mutable: true,
-          collectionAdmin: true,
-          tokenOwner: true,
-        },
-      },
-    ],
+    address,
+    to: address,
+  };
+  const txTransfer = await sdk.collection.transfer.submitWaitResult(args)
+
+  const parsedTransfer = txTransfer.parsed
+
+  console.log(`${parsedTransfer?.owner} is the new owner of collection ${parsedTransfer?.collectionId}`)
+
+  const txGetCollection = await sdk.collection.get({
+    collectionId,
   })
-
-  ////////////////////////////////////
-  // Show collection permissions that were set
-  ////////////////////////////////////
-  const propertiesPermissions = txSetPermissions.parsed?.propertyPermissions
-
-  if (propertiesPermissions?.length) {
-    console.log(`The values of the [ ${propertiesPermissions.map((t) => t.propertyKey).join()} ] keys are set`)
+  if (txGetCollection) {
+    console.log('txGetCollection: ', JSON.stringify(txGetCollection, null, 2))
+    console.log(`Collection # ${txGetCollection.id} is owned by this address: ${txGetCollection.owner}`)
   } else {
-    console.log(`No property permissions were set`)
+    console.log(`No collection found`)
     process.exit()
   }
-
-  console.log(`View the collection at https://uniquescan.io/opal/tokens/${collectionId}/${tokenId}`)
-  console.log(`View the extrinsic tx at https://opal.subscan.io/account/${address}`)
 
   process.exit()
 }

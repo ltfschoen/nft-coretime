@@ -3,6 +3,10 @@ dotenv.config();
 import assert from 'assert';
 import Sdk, { CHAIN_CONFIG, TokenId } from '@unique-nft/sdk'
 import {KeyringProvider} from '@unique-nft/accounts/keyring'
+import {
+  SetCollectionPermissionsArguments,
+  CollectionAccess,
+} from '@unique-nft/substrate-client/tokens';
 
 ////////////////////////////////////
 ///
@@ -29,13 +33,18 @@ async function main() {
   ////////////////////////////////////
   // Create collection - quick simple way 
   ////////////////////////////////////
+
+  // Note: NFT by default. Althernatively Fungible https://docs.unique.network/reference/sdk-methods.html#fungible
   const {parsed, error} = await sdk.collection.create.submitWaitResult({
     address,
     name: 'Luke test collection',
     description: 'My test collection',
     tokenPrefix: 'TST',
     // Optional: Token owners and collection admins are allowed to nest tokens:
+    // https://docs.unique.network/reference/sdk-methods.html#arguments-8
     permissions: {
+      access: CollectionAccess.Normal, // e.g. "Normal"
+      mintMode: false,
       nesting: {
         tokenOwner: true,
         collectionAdmin: true,

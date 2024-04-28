@@ -2,12 +2,13 @@ import dotenv from "dotenv";
 dotenv.config();
 import Sdk, { TokenId } from '@unique-nft/sdk'
 import {KeyringProvider} from '@unique-nft/accounts/keyring'
+import { SetTransfersEnabledArguments } from '@unique-nft/substrate-client/tokens';
 
 ////////////////////////////////////
 ///
-/// Set Properties of Token in a Collection
+/// Set Transfers Enabled Flag for a Collection
 ///
-/// https://docs.unique.network/build/sdk/tokens.html#set-token-properties
+/// https://docs.unique.network/reference/sdk-methods.html#overview-11
 ///
 /// Instructions:
 ///   - Change `collectionId` value to the collection id that you deployed
@@ -34,39 +35,22 @@ async function main() {
   const tokenId = 1
 
   ////////////////////////////////////
-  // Set token properties 
-  ////////////////////////////////////
-
-  // The maximum number of keys is 64. The maximum size of a parameter data block (keys and values) is 40 kB
-  // Keys cannot be removed after being added.
-  // https://docs.unique.network/build/sdk/collections.html#set-collection-properties
-  // https://docs.unique.network/reference/sdk-methods.html#overview-9
-  const txSetProps = await sdk.token.setProperties.submitWaitResult({
+  // Set transfers enabled flag for a collection
+  //////////////////////////////////// 
+  const args: SetTransfersEnabledArguments = {
     address,
     collectionId,
-    tokenId,
-    properties: [
-      {
-        key: 'foo',
-        value: 'bar',
-      },
-    ],
-  })
-
-  ////////////////////////////////////
-  // Show token properties that were set
-  ////////////////////////////////////
-  const properties = txSetProps.parsed?.properties
-
-  if (properties?.length) {
-    console.log(`The values of the [ ${properties.map((t) => t.propertyKey).join()} ] keys are set`)
+    isEnabled: true,
+  };
+  
+  const result = await sdk.collection.setTransfersEnabled.submitWaitResult(args);
+  
+  if (result.parsed?.success) {
+    console.log(`Successfully set transfers enabled`)
   } else {
-    console.log(`No properties were set`)
+    console.log(`Unable to set transfers enabled`)
     process.exit()
   }
-
-  console.log(`View the collection at https://uniquescan.io/opal/tokens/${collectionId}/${tokenId}`)
-  console.log(`View the extrinsic tx at https://opal.subscan.io/account/${address}`)
 
   process.exit()
 }

@@ -2,10 +2,14 @@ import dotenv from "dotenv";
 dotenv.config();
 import Sdk, { TokenId } from '@unique-nft/sdk'
 import {KeyringProvider} from '@unique-nft/accounts/keyring'
+import {
+  SetCollectionPermissionsArguments,
+  CollectionAccess,
+} from '@unique-nft/substrate-client/tokens';
 
 ////////////////////////////////////
 ///
-/// Set Permissions for Properties of Token in a Collection
+/// Set Permissions of a Collection
 ///
 /// https://docs.unique.network/build/sdk/tokens.html#set-token-properties
 ///
@@ -34,34 +38,33 @@ async function main() {
   const tokenId = 1
 
   ////////////////////////////////////
-  // Set permissions for each property of a token in a collection
+  // Set permissions for a collection
   ////////////////////////////////////
-  const txSetPermissions = await sdk.collection.setPropertyPermissions.submitWaitResult({
+
+  // https://docs.unique.network/reference/sdk-methods.html#arguments-8
+  const args: SetCollectionPermissionsArguments = {
     address,
     collectionId,
-    propertyPermissions: [
-      {
-        // the property Key to set the permissions for
-        // we then need to set a property that has that Key
-        key: 'foo',
-        permission: {
-          mutable: true,
-          collectionAdmin: true,
-          tokenOwner: true,
-        },
+    permissions: {
+      access: CollectionAccess.Normal, // e.g. "Normal" or "Whitelist"
+      mintMode: false,
+      nesting: {
+        tokenOwner: true,
+        collectionAdmin: true,
+        // You can set collection ids allowed for nesting:
+        restricted: [1] 
       },
-    ],
-  })
+    },
+  }
+  const txSetPermissions = await sdk.collection.setPermissions.submitWaitResult(args)
 
   ////////////////////////////////////
   // Show collection permissions that were set
   ////////////////////////////////////
-  const propertiesPermissions = txSetPermissions.parsed?.propertyPermissions
-
-  if (propertiesPermissions?.length) {
-    console.log(`The values of the [ ${propertiesPermissions.map((t) => t.propertyKey).join()} ] keys are set`)
+  if (txSetPermissions) {
+    console.log(`The value of the [ ${JSON.stringify(txSetPermissions, null, 2)} ] are set`)
   } else {
-    console.log(`No property permissions were set`)
+    console.log(`No permissions were set`)
     process.exit()
   }
 

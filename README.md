@@ -65,6 +65,8 @@ https://docs.unique.network/build/sdk/collections.html
 
 https://docs.unique.network/reference
 
+https://unique.network/blog/re-fungible-nfts/
+
 ## Pinata
 
 TODO

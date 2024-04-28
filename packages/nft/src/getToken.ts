@@ -59,30 +59,50 @@ async function main() {
       image: { ipfsCid: '', fullUrl: '' },
       properties: [ { key: 'foo', value: 'bar', valueHex: '0x626172' } ],
       collection: {
-        mode: 'NFT',
-        decimals: 0,
-        name: 'Luke test collection',
-        description: 'My test collection',
-        tokenPrefix: 'TST',
-        sponsorship: null,
-        limits: {
-          accountTokenOwnershipLimit: null,
-          sponsoredDataSize: null,
-          sponsoredDataRateLimit: null,
-          tokenLimit: null,
-          sponsorTransferTimeout: null,
-          sponsorApproveTimeout: null,
-          ownerCanTransfer: null,
-          ownerCanDestroy: null,
-          transfersEnabled: null
+        "mode": "NFT",
+        "decimals": 0,
+        "name": "Luke test collection",
+        "description": "My test collection",
+        "tokenPrefix": "TST",
+        "sponsorship": null,
+        "limits": {
+          "accountTokenOwnershipLimit": null,
+          "sponsoredDataSize": null,
+          "sponsoredDataRateLimit": null,
+          "tokenLimit": null,
+          "sponsorTransferTimeout": null,
+          "sponsorApproveTimeout": null,
+          "ownerCanTransfer": null,
+          "ownerCanDestroy": null,
+          "transfersEnabled": true
         },
-        readOnly: false,
-        permissions: { access: 'Normal', mintMode: false, nesting: [Object] },
-        id: 2677,
-        owner: '5G7Jb5JeGV9SN9TUXLqWpxgmEt3o7bQtTNt1FMYgERTdULMf',
-        properties: [],
-        flags: { foreign: false, erc721metadata: false },
-        tokenPropertyPermissions: [ [Object] ]
+        "readOnly": false,
+        "permissions": {
+          "access": "Normal",
+          "mintMode": false,
+          "nesting": {
+            "tokenOwner": false,
+            "collectionAdmin": false,
+            "restricted": null
+          }
+        },
+        "id": 2677,
+        "owner": "5G7Jb5JeGV9SN9TUXLqWpxgmEt3o7bQtTNt1FMYgERTdULMf",
+        "properties": [],
+        "flags": {
+          "foreign": false,
+          "erc721metadata": false
+        },
+        "tokenPropertyPermissions": [
+          {
+            "key": "foo",
+            "permission": {
+              "mutable": true,
+              "tokenOwner": true,
+              "collectionAdmin": true
+            }
+          }
+        ]
       },
       decodingError: null
     }
