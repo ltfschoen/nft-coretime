@@ -8,7 +8,8 @@
     "mint": "node ./dist/mint.js",
     "get-token-properties": "node ./dist/getTokenProperties.js",
     "set-token-permissions": "node ./dist/setTokenPermissions.js",
-    "set-token-properties": "node ./dist/setTokenProperties.js"
+    "set-token-properties": "node ./dist/setTokenProperties.js",
+    "get-token": "node ./dist/getToken.js"
   },
   "dependencies": {
     "@polkadot/api": "^11.0.2",
