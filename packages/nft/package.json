@@ -14,7 +14,8 @@
     "set-collection-limits": "yarn build && node ./dist/setCollectionLimits.js",
     "transfer-token": "yarn build && node ./dist/transferToken.js",
     "transfer-collection": "yarn build && node ./dist/transferCollection.js",
-    "get-token": "yarn build && node ./dist/getToken.js"
+    "get-token": "yarn build && node ./dist/getToken.js",
+    "burn-token": "yarn build && node ./dist/burnToken.js"
   },
   "dependencies": {
     "@polkadot/api": "^11.0.2",
