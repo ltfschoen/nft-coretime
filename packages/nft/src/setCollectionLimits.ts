@@ -46,6 +46,7 @@ async function main() {
     collectionId,
     limits: {
       accountTokenOwnershipLimit: 1, // max tokens one address can own
+      // max is 2048
       sponsoredDataSize: 2048, // max byte size of custom token data sponsorable when tokens are minted in sponsored mode
       sponsoredDataRateLimit: 30, // qty blocks between setVariableMetadata txs in order for them to be sponsored
       tokenLimit: 50, // total amount of tokens that can be minted in this collection
