@@ -9,6 +9,7 @@
     "get-token-properties": "node ./dist/getTokenProperties.js",
     "set-token-permissions": "node ./dist/setTokenPermissions.js",
     "set-token-properties": "node ./dist/setTokenProperties.js",
+    "transfer-token": "node ./dist/transferToken.js",
     "get-token": "node ./dist/getToken.js"
   },
   "dependencies": {

@@ -5,9 +5,9 @@ import {KeyringProvider} from '@unique-nft/accounts/keyring'
 
 ////////////////////////////////////
 ///
-/// Get Token details of a Collection
+/// Transfer Token of a Collection
 ///
-/// https://docs.unique.network/build/sdk/tokens.html#get-token
+/// https://docs.unique.network/build/sdk/tokens.html#transfer-token
 ///
 /// Instructions:
 ///   - Change `collectionId` value to the collection id that you deployed
@@ -34,15 +34,28 @@ async function main() {
   const tokenId = 1
 
   ////////////////////////////////////
-  // Get token 
+  // Transfer token 
   ////////////////////////////////////
+  const txTransfer = await sdk.token.transfer.submitWaitResult({
+    collectionId,
+    tokenId,
+    address,
+    to: address,
+    // from: '', // optional `from` account
+  })
+
+  const parsedTransfer = txTransfer.parsed
+
+  console.log(`${parsedTransfer?.to} is the new owner of token ${parsedTransfer?.tokenId} 
+    from collection ${parsedTransfer?.collectionId}`)
+
   const txGetToken = await sdk.token.get({
     collectionId,
     tokenId,
   })
 
   if (txGetToken) {
-    console.log(`Token: `, JSON.stringify(txGetToken, null, 2))
+    console.log(`Token: `, txGetToken)
     console.log(`Token # ${txGetToken.tokenId} is owned by this address: ${txGetToken.owner}`)
   } else {
     console.log(`No token found`)

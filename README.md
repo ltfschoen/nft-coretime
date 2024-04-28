@@ -61,6 +61,8 @@ Unique developer support https://t.me/unique_network_support
 
 ### Unique Docs
 
+https://docs.unique.network/build/sdk/collections.html
+
 https://docs.unique.network/reference
 
 ## Pinata

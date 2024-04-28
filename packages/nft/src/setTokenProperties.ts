@@ -5,7 +5,7 @@ import {KeyringProvider} from '@unique-nft/accounts/keyring'
 
 ////////////////////////////////////
 ///
-/// Set Properties of Collection
+/// Set Properties of Token in a Collection
 ///
 /// https://docs.unique.network/build/sdk/tokens.html#set-token-properties
 ///

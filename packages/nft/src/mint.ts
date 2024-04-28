@@ -5,6 +5,9 @@ import Sdk, { CHAIN_CONFIG, TokenId } from '@unique-nft/sdk'
 import {KeyringProvider} from '@unique-nft/accounts/keyring'
 
 ////////////////////////////////////
+///
+/// Mint a Token in a Collection
+///
 /// Instructions:
 ///   - Change `baseUrl` to the endpoint of the chain you want to connect to
 ///   - Change `tokenId` value to the token id in that collection (initial token id is 1)
@@ -31,13 +34,21 @@ async function main() {
     name: 'Luke test collection',
     description: 'My test collection',
     tokenPrefix: 'TST',
+    // Optional: Token owners and collection admins are allowed to nest tokens:
+    permissions: {
+      nesting: {
+        tokenOwner: true,
+        collectionAdmin: true,
+        // You can set collection ids allowed for nesting:
+        // restricted: [1] 
+      },
+    },
   })
   console.log('parsed', parsed)
 
-  if (error) {
-    console.log('create collection error', error)
-    process.exit()
-  }
+  if (error) throw Error("Error occurred while creating a collection");
+  if (!parsed) throw Error("Cannot parse results");
+
   const collectionId = parsed?.collectionId as number
   console.log(`Collection created. Id: ${collectionId}`)
   console.log(`View this minted collection at https://uniquescan.io/opal/collections/${collectionId}`)
