@@ -6,14 +6,15 @@
     "build": "npx tsc --build",
     "clean": "npx tsc --clean",
     "mint": "node ./dist/mint.js",
-    "get-token-properties": "node ./dist/getTokenProperties.js",
-    "set-collection-permissions": "node ./dist/setCollectionPermissions.js",
-    "set-token-property-permissions": "node ./dist/setTokenPropertyPermissions.js",
-    "set-token-properties": "node ./dist/setTokenProperties.js",
-    "set-collection-transfers-enabled": "node ./dist/setCollectionTransfersEnabled.js",
-    "transfer-token": "node ./dist/transferToken.js",
-    "transfer-collection": "node ./dist/transferCollection.js",
-    "get-token": "node ./dist/getToken.js"
+    "get-token-properties": "yarn build && node ./dist/getTokenProperties.js",
+    "set-collection-permissions": "yarn build && node ./dist/setCollectionPermissions.js",
+    "set-token-property-permissions": "yarn build && node ./dist/setTokenPropertyPermissions.js",
+    "set-token-properties": "yarn build && node ./dist/setTokenProperties.js",
+    "set-collection-transfers-enabled-limit": "yarn build && node ./dist/setCollectionTransfersEnabledLimit.js",
+    "set-collection-limits": "yarn build && node ./dist/setCollectionLimits.js",
+    "transfer-token": "yarn build && node ./dist/transferToken.js",
+    "transfer-collection": "yarn build && node ./dist/transferCollection.js",
+    "get-token": "yarn build && node ./dist/getToken.js"
   },
   "dependencies": {
     "@polkadot/api": "^11.0.2",

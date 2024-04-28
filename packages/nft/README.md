@@ -13,7 +13,8 @@ yarn run setTokenPropertyPermissions
 yarn run setTokenProperties
 yarn run getTokenProperties
 yarn run getToken
-yarn run setCollectionTransfersEnabled
+yarn run setCollectionTransfersEnabledLimit
+yarn run setCollectionLimits
 yarn run transferToken
 ```
 * Note: Mint collection fee ~2 OPL, and mint token costs ~0.1 OPL
