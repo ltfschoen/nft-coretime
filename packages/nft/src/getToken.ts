@@ -30,8 +30,8 @@ async function main() {
   ////////////////////////////////////
   // Add the collection ID and token ID below 
   ////////////////////////////////////
-  const collectionId = 2677 as number
-  const tokenId = 1
+  const collectionId = 2691 as number
+  const tokenId = 3
 
   ////////////////////////////////////
   // Get token 

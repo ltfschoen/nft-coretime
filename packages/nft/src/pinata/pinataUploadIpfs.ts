@@ -15,7 +15,8 @@ import { connectToPinata } from './helpers/connectToPinata';
 import { IPFS_GATEWAY } from './constants';
 import { findPinsForEnv } from './helpers/pinataFindPins';
 
-const PATH_FILE = path.join(__dirname, '..', '..', 'artifacts', process.env.FILE);
+const file = process.env.FILE ?? "";
+const PATH_FILE = path.join(__dirname, '..', '..', 'artifacts', file);
 const WOPTS: fs.WriteFileOptions = { encoding: 'utf8', flag: 'w' };
 const PATH_IPFS = path.join(__dirname, '..', '..', 'artifacts', 'build');
 let pinata: any;
@@ -24,7 +25,7 @@ async function pin() {
   execute(`mkdir -p ${PATH_IPFS}`, false);
   const options = {
     pinataMetadata: {
-      name: 'nft-coretime',
+      name: 'nft-coretime-image-cover',
       keyvalues: {
         chain: 'kusama-coretime',
         author: '@ltfschoen'
@@ -67,42 +68,45 @@ async function pin() {
   return result.IpfsHash;
 }
 
-// Unpin previous nft-coretime IPFS Hashes
-// that we are no longer using
-// Reference: https://github.com/PinataCloud/Pinata-SDK#pinlist
-async function unpin(exclude: any) {
-  console.log(`Unpinning previous nft-coretime IPFS hashes`);
-  const pinList = await findPinsForEnv(pinata);
-  console.log('Found list of IPFS hashes for kusama-coretime: ', pinList);
-  if (pinList.count > 1) {
-    const filtered = pinList.rows
-      .map(({ ipfs_pin_hash: hash }: any) => hash)
-      .filter((hash: any) => hash !== exclude);
-    console.log('Found old IPFS hashes for kusama-coretime to Unpin: ', filtered);
+// // Unpin previous nft-coretime IPFS Hashes
+// // that we are no longer using
+// // Reference: https://github.com/PinataCloud/Pinata-SDK#pinlist
+// async function unpin(exclude: any) {
+//   console.log(`Unpinning previous nft-coretime IPFS hashes`);
+//   const pinList = await findPinsForEnv(pinata);
+//   console.log('Found list of IPFS hashes for kusama-coretime: ', pinList);
+//   if (pinList.count > 1) {
+//     const filtered = pinList.rows
+//       .map(({ ipfs_pin_hash: hash }: any) => hash)
+//       .filter((hash: any) => hash !== exclude);
+//     console.log('Found old IPFS hashes for kusama-coretime to Unpin: ', filtered);
 
-    if (filtered.length) {
-      await Promise.all(
-        filtered.map((hash: any) =>
-          pinata
-            .unpin(hash)
-            .then(() => console.log(`Unpinned IPFS hash: ${hash}`))
-            .catch(console.error)
-        )
-      );
-    }
-  }
-}
+//     if (filtered.length) {
+//       await Promise.all(
+//         filtered.map((hash: any) =>
+//           pinata
+//             .unpin(hash)
+//             .then(() => console.log(`Unpinned IPFS hash: ${hash}`))
+//             .catch(console.error)
+//         )
+//       );
+//     }
+//   }
+// }
 
 /**
  * Pin and Unpin an IPFS hash based on an .mp4 3D simulation of Coretime in Pinata using Pinata SDK.
  * Reference: https://github.com/PinataCloud/Pinata-SDK
  */
 async function main() {
+  if (!file) {
+    console.log("Please add a value for `FILE` in the .env file");
+  }
   pinata = await connectToPinata();
   console.log("pinata connected");
   if (pinata) {
     const hash = await pin();
-    await unpin(hash);
+    // await unpin(hash);
   }
 }
 

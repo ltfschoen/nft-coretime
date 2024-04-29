@@ -18,12 +18,14 @@ yarn run setCollectionPermissions
 yarn run setTokenPropertyPermissions
 yarn run setTokenProperties
 yarn run getTokenProperties
+yarn run addTokensToCollection
 yarn run getToken
 yarn run setCollectionTransfersEnabledLimit
 yarn run setCollectionLimits
 yarn run transferToken
 yarn run transferCollection
 yarn run burnToken
+yarn run uniqueUploadIpfs
 ```
 * Note: Mint collection fee ~2 OPL, and mint token costs ~0.1 OPL
 * View the tokens minted by going to https://uniquescan.io/opal
@@ -52,6 +54,12 @@ cp .env.example .env
 ```
 
 * Copy file to upload to Pinata (e.g. .mp4 file type) into ./packages/nft/artifacts folder
+* Change metadata name postfix in ./packages/nft/src/pinata/pinataUploadIpfs.ts to make it a unique upload (e.g. `-image-cover`, `-image-preview`, `-image`, `-nft`)
+  ```
+  pinataMetadata: {
+    name: 'nft-coretime-image-cover',
+  ```
+
 * Run:
 ```
 yarn run pinata-upload
