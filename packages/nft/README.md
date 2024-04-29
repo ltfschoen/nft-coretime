@@ -1,4 +1,4 @@
-# Deploy and interact with NFT or similar on Unique Network
+# Unique Network deploy and interact with NFT or similar
 
 Generate .env file and populate its value with the mnemonic seed of a Substrate-based account
 ```bash
@@ -14,18 +14,17 @@ Run the following commands in this directory:
 ```bash
 yarn run build
 yarn run mint
-yarn run setCollectionPermissions
-yarn run setTokenPropertyPermissions
-yarn run setTokenProperties
-yarn run getTokenProperties
-yarn run addTokensToCollection
-yarn run getToken
-yarn run setCollectionTransfersEnabledLimit
-yarn run setCollectionLimits
-yarn run transferToken
-yarn run transferCollection
-yarn run burnToken
-yarn run uniqueUploadIpfs
+yarn run set-collection-permissions
+yarn run set-token-property-permissions
+yarn run set-token-properties
+yarn run get-token-properties
+yarn run add-tokens-to-collection
+yarn run get-token
+yarn run set-collection-transfers-enabled-limit
+yarn run set-collection-limits
+yarn run transfer-coken
+yarn run transfer-collection
+yarn run burn-token
 ```
 * Note: Mint collection fee ~2 OPL, and mint token costs ~0.1 OPL
 * View the tokens minted by going to https://uniquescan.io/opal
@@ -37,7 +36,7 @@ yarn run uniqueUploadIpfs
   * how to change "Account token ownership limit" to number other than 100000000?
   https://uniquescan.io/opal/collections/2677
 
-## Unique Resources & Support
+## Unique Network Resources & Support
 
 * Unique developer support https://t.me/unique_network_support
 * View block explorer https://uniquescan.io/opal/
@@ -46,6 +45,13 @@ yarn run uniqueUploadIpfs
 * Blog on RFTs - https://unique.network/blog/re-fungible-nfts/
 * Mint next tokens in the collection - https://youtu.be/KFZ8l-r9RY0?feature=shared&t=1528
 
+# Upload to Uniqe pinned IPFS CID
+
+Note: Use Pinata to upload large files or to pin files since Unique Network has size restrictions and does not offer pinned IPFS files
+```bash
+yarn run unique-upload
+```
+
 # Upload to Pinata pinned CID
 
 Generate .env file and populate its value with the Pinata API key and secret from https://pinata.cloud/
@@ -53,7 +59,21 @@ Generate .env file and populate its value with the Pinata API key and secret fro
 cp .env.example .env
 ```
 
-* Copy file to upload to Pinata (e.g. .mp4 file type) into ./packages/nft/artifacts folder
+* Convert file options
+  * e.g. mp4 to gif at ezgif.com to reduce size of gif
+  * convert png to svg (retain quality) - https://pixelied.com/convert/png-converter/png-to-svg
+  * convert wav to mp3 - https://cloudconvert.com/wav-to-mp3
+  * https://www.imagemagick.org/script/command-line-options.php
+    ```bash
+    brew install imagemagick
+    magick input.gif -fuzz 30% -layers Optimize output.gif
+    magick mogrify -debug "Cache,Blob" -verbose -identify -colors 255 -fuzz 30% -layers Optimize input.gif
+    magick mogrify -debug "Cache,Blob" -fuzz 7% -layers Optimize -size 300x300 pattern:checkerboard -normalize -virtual-pixel tile \
+      -distort perspective  '0,0,5,45  89,0,45,46  0,89,0,89  89,89,89,89' \
+      input.gif
+    ```
+
+* Copy file to upload to Pinata (e.g. .gif file type) into ./packages/nft/artifacts folder
 * Change metadata name postfix in ./packages/nft/src/pinata/pinataUploadIpfs.ts to make it a unique upload (e.g. `-image-cover`, `-image-preview`, `-image`, `-nft`)
   ```
   pinataMetadata: {
@@ -61,7 +81,8 @@ cp .env.example .env
   ```
 
 * Run:
-```
+```bash
 yarn run pinata-upload
 ```
+
 * View file that has been uploaded in Pinata https://app.pinata.cloud/pinmanager

@@ -25,7 +25,7 @@ async function pin() {
   execute(`mkdir -p ${PATH_IPFS}`, false);
   const options = {
     pinataMetadata: {
-      name: 'nft-coretime-image-cover',
+      name: 'nft-coretime-image-gif',
       keyvalues: {
         chain: 'kusama-coretime',
         author: '@ltfschoen'

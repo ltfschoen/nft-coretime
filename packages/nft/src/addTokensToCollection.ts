@@ -36,24 +36,54 @@ async function main() {
   ////////////////////////////////////
   // Add the collection ID and token ID below 
   ////////////////////////////////////
-  const collectionId = 2691 as number
+  const collectionId = 2697 as number
   const tokenId = 1
 
   ////////////////////////////////////
   // Add tokens to a collection
   ////////////////////////////////////
   const tokens = [ // array of tokens
-    { // next
+    {
       data: {
         image: {
-          // e.g. https://ipfs.io/ipfs/QmYJDpmWyjDa3H6BxweFmQXk4fU8b1GU7M9EqYcaUNvXzc
+          urlTemplate: `https://maroon-autonomous-horse-597.mypinata.cloud/ipfs/{infix}`,
+          ipfsCid: 'QmTByhediQxwgZdnWgUkdFotnXAR3adhNLgoJyZ9dGsBEv', // animated gif
+        },
+        name: {
+          _: 'video',
+        },
+        description: {
+          _: 'video',
+        },
+      },
+    },
+    {
+      data: {
+        image: {
+          // https://ipfs.unique.network/ipfs/QmUisSsrD9S4qhEfrmvxfxPATVH49LU8ov5Y4MBoawaZR6/cover.png
+          urlTemplate: `https://ipfs.unique.network/ipfs/{infix}/cover.png`,
           ipfsCid: 'QmUisSsrD9S4qhEfrmvxfxPATVH49LU8ov5Y4MBoawaZR6', // valid IPFS CID
         },
         name: {
-          _: 'Next Coretime NFT',
+          _: 'cover',
         },
         description: {
-          _: 'Next Coretime NFT to commemorate initial sales',
+          _: 'cover',
+        },
+      },
+    },
+    { // next
+      data: {
+        image: {
+          // https://ipfs.unique.network/ipfs/QmUXVMZ9b2uaqyT4T3ExksnyebHysXUjeSPwtVjK9PHSSk/image.png
+          urlTemplate: `https://ipfs.unique.network/ipfs/{infix}/image.png`,
+          ipfsCid: 'QmUXVMZ9b2uaqyT4T3ExksnyebHysXUjeSPwtVjK9PHSSk', // valid IPFS CID
+        },
+        name: {
+          _: 'image',
+        },
+        description: {
+          _: 'image',
         },
       },
     },

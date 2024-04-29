@@ -48,33 +48,43 @@ async function main() {
     schemaName: COLLECTION_SCHEMA_NAME.unique,
     schemaVersion: '1.0.0',
     image: {
+      // e.g. https://gateway.pinata.cloud/ipfs/{infix}
       // e.g. https://ipfs.unique.network/ipfs/{infix}
-      urlTemplate: `https://gateway.pinata.cloud/ipfs/{infix}`
+      // e.g. https://maroon-autonomous-horse-597.mypinata.cloud/ipfs/{infix}
+      urlTemplate: `https://maroon-autonomous-horse-597.mypinata.cloud/ipfs/{infix}`,
+      ipfsCid: `QmYcU4p1zjW2NbT3sQhRhDC5gaEj5weFP7tiUqvMM1pEKE`,
     },
     imagePreview: {
-      urlTemplate: `https://gateway.pinata.cloud/ipfs/{infix}`
+      urlTemplate: `https://maroon-autonomous-horse-597.mypinata.cloud/ipfs/{infix}`,
+      ipfsCid: `QmYcU4p1zjW2NbT3sQhRhDC5gaEj5weFP7tiUqvMM1pEKE`,
     },
     coverPicture: {
+      urlTemplate: `https://maroon-autonomous-horse-597.mypinata.cloud/ipfs/{infix}`,
       ipfsCid: IMAGE_COVER,
     },
     // AudioDto
     audio: {
-      urlTemplate: 'https://gateway.pinata.cloud/ipfs/{infix}',
+      urlTemplate: 'https://ipfs.unique.network/ipfs/{infix}/shutter.mp3',
+      ipfsCid: `QmZksGWqYPyGPxw7R9u2rALS2kbbjQcHKbSqEihTNgAzkw`,
       format: 'mp3',
       isLossless: false,
     },
     // SpatialObjectDto
-    spatialObject: {
-      urlTemplate: 'https://gateway.pinata.cloud/ipfs/{infix}',
-      format: 'mp4'
-    },
+    // spatialObject: {
+    //   urlTemplate: 'https://gateway.pinata.cloud/ipfs/{infix}',
+    //   format: ''
+    // },
     // VideoDto
+    // /** @example https://ipfs.unique.network/ipfs/{infix}.ext */
     video: {
-      urlTemplate: 'https://gateway.pinata.cloud/ipfs/{infix}',
+      urlTemplate: 'https://maroon-autonomous-horse-597.mypinata.cloud/ipfs/{infix}',
+      ipfsCid: `QmNtWtia2njH5N8bUQMWjc39hkhwMKBHQWNEd4GhRe7BwG`, // mp4
     },
     // VideoDto
     file: {
-      urlTemplate: 'https://gateway.pinata.cloud/ipfs/{infix}',
+      // urlTemplate: 'https://gateway.pinata.cloud/ipfs/{infix}',
+      urlTemplate: 'https://maroon-autonomous-horse-597.mypinata.cloud/ipfs/{infix}',
+      ipfsCid: `QmNtWtia2njH5N8bUQMWjc39hkhwMKBHQWNEd4GhRe7BwG`, // mp4
     },
     // UniqueRoyaltyPartToEncodeDto
     royaltyType: [
@@ -174,7 +184,8 @@ async function main() {
       data: {
         image: {
           // e.g. https://ipfs.io/ipfs/QmYJDpmWyjDa3H6BxweFmQXk4fU8b1GU7M9EqYcaUNvXzc
-          ipfsCid: 'QmNtWtia2njH5N8bUQMWjc39hkhwMKBHQWNEd4GhRe7BwG', // NFT
+          urlTemplate: `https://maroon-autonomous-horse-597.mypinata.cloud/ipfs/{infix}`,
+          ipfsCid: IMAGE_COVER, // NFT
         },
         name: {
           _: 'Kusama Coretime NFT 1',
@@ -188,21 +199,8 @@ async function main() {
       data: {
         image: {
           // e.g. https://ipfs.io/ipfs/QmYJDpmWyjDa3H6BxweFmQXk4fU8b1GU7M9EqYcaUNvXzc
-          ipfsCid: 'https://ipfs.io/ipfs/QmYJDpmWyjDa3H6BxweFmQXk4fU8b1GU7M9EqYcaUNvXzc',
-        },
-        name: {
-          _: 'Kusama Coretime NFT 2',
-        },
-        description: {
-          _: 'Kusama Coretime NFT to commemorate initial sales',
-        },
-      },
-    },
-    { // 3rd token
-      data: {
-        image: {
-          // e.g. https://ipfs.io/ipfs/QmcqTqFM47LtQbFe5AtaCkg4DC5HcGGhVK6r8Tyqc3CV4h
-          ipfsCid: 'https://ipfs.io/ipfs/QmcqTqFM47LtQbFe5AtaCkg4DC5HcGGhVK6r8Tyqc3CV4h',
+          urlTemplate: `https://maroon-autonomous-horse-597.mypinata.cloud/ipfs/{infix}`,
+          ipfsCid: `QmYcU4p1zjW2NbT3sQhRhDC5gaEj5weFP7tiUqvMM1pEKE`, // SVG
         },
         name: {
           _: 'Kusama Coretime NFT 3',
@@ -221,7 +219,8 @@ async function main() {
         //   '2': 'foo_bar', 
         // },
         image: {
-          // e.g. https://ipfs.io/ipfs/QmYJDpmWyjDa3H6BxweFmQXk4fU8b1GU7M9EqYcaUNvXzc
+          // https://ipfs.unique.network/ipfs/QmUisSsrD9S4qhEfrmvxfxPATVH49LU8ov5Y4MBoawaZR6/cover.png
+          urlTemplate: `https://ipfs.unique.network/ipfs/{infix}/cover.png`,
           ipfsCid: 'QmUisSsrD9S4qhEfrmvxfxPATVH49LU8ov5Y4MBoawaZR6', // valid IPFS CID
         },
         name: {
@@ -235,7 +234,8 @@ async function main() {
     { // next
       data: {
         image: {
-          // e.g. https://ipfs.io/ipfs/QmYJDpmWyjDa3H6BxweFmQXk4fU8b1GU7M9EqYcaUNvXzc
+          // https://ipfs.unique.network/ipfs/QmUXVMZ9b2uaqyT4T3ExksnyebHysXUjeSPwtVjK9PHSSk/image.png
+          urlTemplate: `https://ipfs.unique.network/ipfs/{infix}/image.png`,
           ipfsCid: 'QmUXVMZ9b2uaqyT4T3ExksnyebHysXUjeSPwtVjK9PHSSk', // valid IPFS CID
         },
         name: {
