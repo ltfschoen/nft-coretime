@@ -1,10 +1,11 @@
-# Deploy NFT on Unique Network
+# Deploy and interact with NFT or similar on Unique Network
 
 Reference: https://docs.unique.network/build/sdk/tokens.html
 
 * Request Opan Testnet tokens from the faucet https://t.me/unique2faucet_opal_bot
 * View balance by entering address in block explorer https://uniquescan.io/opal/
 
+Run the following commands in this directory:
 ```bash
 yarn run build
 yarn run mint
@@ -16,6 +17,8 @@ yarn run getToken
 yarn run setCollectionTransfersEnabledLimit
 yarn run setCollectionLimits
 yarn run transferToken
+yarn run transferCollection
+yarn run burnToken
 ```
 * Note: Mint collection fee ~2 OPL, and mint token costs ~0.1 OPL
 * View the tokens minted by going to https://uniquescan.io/opal

@@ -1,4 +1,5 @@
 # Next.js TypeScript frontend + Adonis.js backend + Lerna workspaces
+# Unique Network NFTs
 
 ## Setup
 
@@ -39,33 +40,27 @@ Generate .env file and populate its value with the mnemonic seed of a Substrate-
 cp .env.example .env
 ```
 
-### Mint NFT on Opal Testnet
+### Deploy and interact with NFTs
 
 ```bash
 cd packages/nft
-yarn run build
-node ./dist/mint.js
 ```
 
-View block explorer https://uniquescan.io/opal/
+Run the commands mentioned in the [NFT README](./packages/nft/README.md]
 
-### View NFT Properties on Opal Testnet
 
-```bash
-cd packages/nft
-yarn run build
-node ./dist/getTokenProperties.js
-```
+
+### Unique Resources & Support
 
 Unique developer support https://t.me/unique_network_support
 
-### Unique Docs
+View block explorer https://uniquescan.io/opal/
 
-https://docs.unique.network/build/sdk/collections.html
+* Guides - https://docs.unique.network/build/sdk/collections.html
 
-https://docs.unique.network/reference
+* SDK Reference Docs - https://docs.unique.network/reference
 
-https://unique.network/blog/re-fungible-nfts/
+* Blog on RFTs - https://unique.network/blog/re-fungible-nfts/
 
 ## Pinata
 
