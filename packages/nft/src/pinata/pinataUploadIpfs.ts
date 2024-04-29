@@ -15,7 +15,7 @@ import { connectToPinata } from './helpers/connectToPinata';
 import { IPFS_GATEWAY } from './constants';
 import { findPinsForEnv } from './helpers/pinataFindPins';
 
-const PATH_FILE = path.join(__dirname, '..', '..', 'artifacts', 'demo-noise2.mp4');
+const PATH_FILE = path.join(__dirname, '..', '..', 'artifacts', process.env.FILE);
 const WOPTS: fs.WriteFileOptions = { encoding: 'utf8', flag: 'w' };
 const PATH_IPFS = path.join(__dirname, '..', '..', 'artifacts', 'build');
 let pinata: any;

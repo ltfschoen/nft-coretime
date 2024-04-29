@@ -1,5 +1,10 @@
 # Deploy and interact with NFT or similar on Unique Network
 
+Generate .env file and populate its value with the mnemonic seed of a Substrate-based account
+```bash
+cp .env.example .env
+```
+
 Reference: https://docs.unique.network/build/sdk/tokens.html
 
 * Request Opan Testnet tokens from the faucet https://t.me/unique2faucet_opal_bot
@@ -29,3 +34,26 @@ yarn run burnToken
   * how to change "Token limit" to number other than 4294967295?
   * how to change "Account token ownership limit" to number other than 100000000?
   https://uniquescan.io/opal/collections/2677
+
+## Unique Resources & Support
+
+* Unique developer support https://t.me/unique_network_support
+* View block explorer https://uniquescan.io/opal/
+* Guides - https://docs.unique.network/build/sdk/collections.html
+* SDK Reference Docs - https://docs.unique.network/reference
+* Blog on RFTs - https://unique.network/blog/re-fungible-nfts/
+* Mint next tokens in the collection - https://youtu.be/KFZ8l-r9RY0?feature=shared&t=1528
+
+# Upload to Pinata pinned CID
+
+Generate .env file and populate its value with the Pinata API key and secret from https://pinata.cloud/
+```bash
+cp .env.example .env
+```
+
+* Copy file to upload to Pinata (e.g. .mp4 file type) into ./packages/nft/artifacts folder
+* Run:
+```
+yarn run pinata-upload
+```
+* View file that has been uploaded in Pinata https://app.pinata.cloud/pinmanager
