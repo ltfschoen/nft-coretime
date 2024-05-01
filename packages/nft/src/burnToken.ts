@@ -31,7 +31,7 @@ async function main() {
   ////////////////////////////////////
   // Add the collection ID and token ID below 
   ////////////////////////////////////
-  const collectionId = 2677 as number
+  const collectionId = 2708 as number
   const tokenId = 1
 
   ////////////////////////////////////

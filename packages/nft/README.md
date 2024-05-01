@@ -72,6 +72,12 @@ cp .env.example .env
       -distort perspective  '0,0,5,45  89,0,45,46  0,89,0,89  89,89,89,89' \
       input.gif
     ```
+* Note: MP4 is not supported by Unique Network
+* Best option was exporting to MP4, then converting to animated GIF with the following, as mentioned here https://askubuntu.com/questions/648603/how-to-create-an-animated-gif-from-mp4-video-via-command-line
+  ```
+  brew install ffmpeg
+  ffmpeg -i input.mp4 output.gif
+  ```
 
 * Copy file to upload to Pinata (e.g. .gif file type) into ./packages/nft/artifacts folder
 * Change metadata name postfix in ./packages/nft/src/pinata/pinataUploadIpfs.ts to make it a unique upload (e.g. `-image-cover`, `-image-preview`, `-image`, `-nft`)

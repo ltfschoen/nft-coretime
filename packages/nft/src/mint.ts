@@ -14,6 +14,7 @@ import {
   COLLECTION_SCHEMA_NAME,
   UniqueCollectionSchemaToCreate,
 } from '@unique-nft/schemas'
+import { collectionData, tokenData } from './data';
 
 ////////////////////////////////////
 ///
@@ -37,55 +38,22 @@ async function main() {
   })
   // console.log('sdk', sdk)
 
-  const IMAGE = 'QmYcU4p1zjW2NbT3sQhRhDC5gaEj5weFP7tiUqvMM1pEKE';
-  const infix = IMAGE;
-  const IMAGE_COVER = 'QmZLgjDosGZEwBZeiDMaBodP7Mh9oqTyc3ifhktSuSXZZt';
-  const NFT = 'QmNtWtia2njH5N8bUQMWjc39hkhwMKBHQWNEd4GhRe7BwG';
-
+  console.log('tokenData', JSON.stringify(tokenData, null, 2));
 
   // FIXME: type UniqueCollectionSchemaToCreate or UniqueCollectionSchemaToCreateDto ?
   const collectionSchema = {
     schemaName: COLLECTION_SCHEMA_NAME.unique,
     schemaVersion: '1.0.0',
-    image: {
-      // e.g. https://gateway.pinata.cloud/ipfs/{infix}
-      // e.g. https://ipfs.unique.network/ipfs/{infix}
-      // e.g. https://maroon-autonomous-horse-597.mypinata.cloud/ipfs/{infix}
-      urlTemplate: `https://maroon-autonomous-horse-597.mypinata.cloud/ipfs/{infix}`,
-      ipfsCid: `QmYcU4p1zjW2NbT3sQhRhDC5gaEj5weFP7tiUqvMM1pEKE`,
-    },
-    imagePreview: {
-      urlTemplate: `https://maroon-autonomous-horse-597.mypinata.cloud/ipfs/{infix}`,
-      ipfsCid: `QmYcU4p1zjW2NbT3sQhRhDC5gaEj5weFP7tiUqvMM1pEKE`,
-    },
-    coverPicture: {
-      urlTemplate: `https://maroon-autonomous-horse-597.mypinata.cloud/ipfs/{infix}`,
-      ipfsCid: IMAGE_COVER,
-    },
-    // AudioDto
-    audio: {
-      urlTemplate: 'https://ipfs.unique.network/ipfs/{infix}/shutter.mp3',
-      ipfsCid: `QmZksGWqYPyGPxw7R9u2rALS2kbbjQcHKbSqEihTNgAzkw`,
-      format: 'mp3',
-      isLossless: false,
-    },
-    // SpatialObjectDto
-    // spatialObject: {
-    //   urlTemplate: 'https://gateway.pinata.cloud/ipfs/{infix}',
-    //   format: ''
-    // },
+    image: collectionData.image,
+    imagePreview: collectionData.imagePreview,
+    coverPicture: collectionData.coverPicture,
+    // audio: tokenData.audio,
+    // spatialObject: tokenData.spatialObject,
     // VideoDto
     // /** @example https://ipfs.unique.network/ipfs/{infix}.ext */
-    video: {
-      urlTemplate: 'https://maroon-autonomous-horse-597.mypinata.cloud/ipfs/{infix}',
-      ipfsCid: `QmNtWtia2njH5N8bUQMWjc39hkhwMKBHQWNEd4GhRe7BwG`, // mp4
-    },
+    video: collectionData.video,
     // VideoDto
-    file: {
-      // urlTemplate: 'https://gateway.pinata.cloud/ipfs/{infix}',
-      urlTemplate: 'https://maroon-autonomous-horse-597.mypinata.cloud/ipfs/{infix}',
-      ipfsCid: `QmNtWtia2njH5N8bUQMWjc39hkhwMKBHQWNEd4GhRe7BwG`, // mp4
-    },
+    file: collectionData.file,
     // UniqueRoyaltyPartToEncodeDto
     royaltyType: [
       {
@@ -98,19 +66,18 @@ async function main() {
          * The ss-58 encoded address
          * @example 5G7Jb5JeGV9SN9TUXLqWpxgmEt3o7bQtTNt1FMYgERTdULMf
          */
-        address: '5G7Jb5JeGV9SN9TUXLqWpxgmEt3o7bQtTNt1FMYgERTdULMf'
+        address:  process.env.WALLET_ADDRESS ?? "5Chai5UGBHXFrXXcHtDypVWdvHnjrny2rDtfa9RHbM3JGpCw"
       }
     ],
     attributesSchemaVersion: '1.0.0',
     attributesSchema: {
       0: {
-        name: {_: 'coretime-chain'},
+        name: {_: 'chain-name'},
         type: AttributeType.string,
         optional: false,
         isArray: false,
         enumValues: {
           0: {_: 'kusama-coretime'},
-          1: {_: 'polkadot-coretime'},
         }
       }
     },
@@ -121,7 +88,7 @@ async function main() {
   ////////////////////////////////////
 
   // Note: NFT by default. Althernatively Fungible https://docs.unique.network/reference/sdk-methods.html#fungible
-  const {parsed, error} = await sdk.collection.create.submitWaitResult({
+  const {parsed, block, blockIndex, error} = await sdk.collection.create.submitWaitResult({
     address,
     name: 'Coretime NFT collection',
     description: 'Coretime NFT collection',
@@ -142,14 +109,74 @@ async function main() {
     },
     properties: [
       {
-        key: 'kusama-coretime-blocknumber-first-sale',
+        key: 'kusama-coretime-first-sale-blocknumber',
         value: '94879',
+      },
+      {
+        key: 'kusama-coretime-second-sale-blocknumber',
+        value: '94880',
+      },
+      {
+        key: 'kusama-coretime-third-sale-blocknumber',
+        value: '94881',
+      },
+      {
+        key: 'kusama-coretime-first-sale-price-ksm',
+        value: '5',
+      },
+      {
+        key: 'kusama-coretime-second-sale-price-ksm',
+        value: '5',
+      },
+      {
+        key: 'kusama-coretime-third-sale-price-ksm',
+        value: '5',
       },
     ],
     // Token Property permissions
     tokenPropertyPermissions: [
       {
-        key: 'kusama-coretime-blocknumber-first-sale',
+        key: 'kusama-coretime-first-sale-blocknumber',
+        permission: {
+          mutable: true,
+          tokenOwner: true,
+          collectionAdmin: true,
+        }
+      },
+      {
+        key: 'kusama-coretime-second-sale-blocknumber',
+        permission: {
+          mutable: true,
+          tokenOwner: true,
+          collectionAdmin: true,
+        }
+      },
+      {
+        key: 'kusama-coretime-third-sale-blocknumber',
+        permission: {
+          mutable: true,
+          tokenOwner: true,
+          collectionAdmin: true,
+        }
+      },
+      {
+        key: 'kusama-coretime-first-sale-price-ksm',
+        permission: {
+          mutable: true,
+          tokenOwner: true,
+          collectionAdmin: true,
+        }
+      },
+      {
+        key: 'kusama-coretime-second-sale-price-ksm',
+        permission: {
+          mutable: true,
+          tokenOwner: true,
+          collectionAdmin: true,
+        }
+      },
+      {
+        key: 'kusama-coretime-third-sale-price-ksm',
         permission: {
           mutable: true,
           tokenOwner: true,
@@ -158,11 +185,13 @@ async function main() {
       }
     ],
     limits: {
-      accountTokenOwnershipLimit: 48, // max tokens one address can own
+      accountTokenOwnershipLimit: 1000000, // max tokens one address can own
       // max is 2048
       sponsoredDataSize: 2048, // max byte size of custom token data sponsorable when tokens are minted in sponsored mode
       sponsoredDataRateLimit: 30, // qty blocks between setVariableMetadata txs in order for them to be sponsored
-      tokenLimit: 48, // total amount of tokens that can be minted in this collection
+      tokenLimit: 1000000, // total amount of tokens that can be minted in this collection
+      // this mechanism can help prevent spending funds from the sponsor's account by attacker
+      // sending transactions every block. The limit counts in parachain's blocks
       sponsorTransferTimeout: 600, // time interval in blocks of a non-privileged user transfer or the mint transaction can be sponsored
       sponsorApproveTimeout: 600, // time interval in blocks of a non-privileged user approve transaction can be sponsored
       ownerCanTransfer: true, // boolean if collection owner or admins can transfer or burn tokens owned by other non-privileged users
@@ -176,73 +205,48 @@ async function main() {
   if (!parsed) throw Error("Cannot parse results");
 
   const collectionId = parsed?.collectionId as number
-  console.log(`Collection created. Id: ${collectionId}`)
+  console.log(`Collection created. Id: ${collectionId} at block index: ${blockIndex}, and at block: ${JSON.stringify(block)}`)
   console.log(`View this minted collection at https://uniquescan.io/opal/collections/${collectionId}`)
 
   const tokens = [ // array of tokens
     { // 1st token
       data: {
-        image: {
-          // e.g. https://ipfs.io/ipfs/QmYJDpmWyjDa3H6BxweFmQXk4fU8b1GU7M9EqYcaUNvXzc
-          urlTemplate: `https://maroon-autonomous-horse-597.mypinata.cloud/ipfs/{infix}`,
-          ipfsCid: IMAGE_COVER, // NFT
+        // https://docs.unique.network/reference/sdk-methods.html#brief-example-39
+        attributes: {
+          '0': "kusama-coretime-core",
         },
-        name: {
-          _: 'Kusama Coretime NFT 1',
-        },
-        description: {
-          _: 'Kusama Coretime NFT to commemorate initial sales',
-        },
-      },
-    },
-    { // 2nd token
-      data: {
-        image: {
-          // e.g. https://ipfs.io/ipfs/QmYJDpmWyjDa3H6BxweFmQXk4fU8b1GU7M9EqYcaUNvXzc
-          urlTemplate: `https://maroon-autonomous-horse-597.mypinata.cloud/ipfs/{infix}`,
-          ipfsCid: `QmYcU4p1zjW2NbT3sQhRhDC5gaEj5weFP7tiUqvMM1pEKE`, // SVG
-        },
-        name: {
-          _: 'Kusama Coretime NFT 3',
-        },
-        description: {
-          _: 'Kusama Coretime NFT to commemorate initial sales',
-        },
-      },
-    },
-    { // next
-      data: {
-        // FIXME - why does this cause error?
+        // causes error 500 if try to mint token using this even though it compiles
         // encodedAttributes: {
-        //   '0': 0,
-        //   '1': [0],
-        //   '2': 'foo_bar', 
+        //   '0': {_: "kusama-coretime-core1"},
         // },
-        image: {
-          // https://ipfs.unique.network/ipfs/QmUisSsrD9S4qhEfrmvxfxPATVH49LU8ov5Y4MBoawaZR6/cover.png
-          urlTemplate: `https://ipfs.unique.network/ipfs/{infix}/cover.png`,
-          ipfsCid: 'QmUisSsrD9S4qhEfrmvxfxPATVH49LU8ov5Y4MBoawaZR6', // valid IPFS CID
-        },
+        image: tokenData.nft1,
         name: {
-          _: 'cover',
+          _: 'Kusama Coretime NFT Core 1',
         },
         description: {
-          _: 'cover',
+          _: 'Kusama Coretime NFT to commemorate initial sales',
         },
       },
     },
-    { // next
+    {
       data: {
-        image: {
-          // https://ipfs.unique.network/ipfs/QmUXVMZ9b2uaqyT4T3ExksnyebHysXUjeSPwtVjK9PHSSk/image.png
-          urlTemplate: `https://ipfs.unique.network/ipfs/{infix}/image.png`,
-          ipfsCid: 'QmUXVMZ9b2uaqyT4T3ExksnyebHysXUjeSPwtVjK9PHSSk', // valid IPFS CID
-        },
+        image: tokenData.nft1,
         name: {
-          _: 'image',
+          _: 'Kusama Coretime NFT Core 2',
         },
         description: {
-          _: 'image',
+          _: 'Kusama Coretime NFT to commemorate initial sales',
+        },
+      },
+    },
+    {
+      data: {
+        image: tokenData.nft1,
+        name: {
+          _: 'Kusama Coretime NFT Core 3',
+        },
+        description: {
+          _: 'Kusama Coretime NFT to commemorate initial sales',
         },
       },
     },
@@ -254,21 +258,32 @@ async function main() {
   ////////////////////////////////////
   // Mint token(s)
   ////////////////////////////////////
-  const result = await sdk.token.createMultiple.submitWaitResult({
+
+  // const result = await sdk.token.createMultiple.submitWaitResult({
+  //   address,
+  //   collectionId,
+  //   tokens: tokens,
+  // })
+  // console.log('result', result)
+
+  // Note: Instead of doing it like above, you can get a hex-encoded payload,
+  // you can use .build, as shown below
+  const unsignedTxPayload = await sdk.token.createMultiple.build({
     address,
     collectionId,
     tokens: tokens,
-  })
+  });
+  const { signature } = await sdk.extrinsic.sign(unsignedTxPayload);
+  const { hash } = await sdk.extrinsic.submit({
+    signature,
+    signerPayloadJSON: unsignedTxPayload.signerPayloadJSON,
+  });
+  const result = await sdk.extrinsic.waitResult({ hash });
   console.log('result', result)
-
-  // Note: To get a hex-encoded payload, you can use .build. For example:
-  //   const unsignedTxPayload = await sdk.token.create.build({
-  //     collectionId: 2677,
-  //   });
 
   const mintedTokensCount = result?.parsed?.length
   let currentTokenId;
-  result.parsed?.forEach((token, index) => {
+  result.parsed?.forEach((token: any, index: any) => {
     currentTokenId = token?.tokenId as number
     console.log(`Minted token ID #${currentTokenId}/${mintedTokensCount} in collection ${collectionId}`)
     console.log(`View this minted token at https://uniquescan.io/opal/tokens/${collectionId}/${currentTokenId}`)

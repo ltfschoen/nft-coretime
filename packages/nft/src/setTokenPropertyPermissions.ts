@@ -36,6 +36,7 @@ async function main() {
   ////////////////////////////////////
   // Set permissions for each property of a token in a collection
   ////////////////////////////////////
+  // const {hash, block, blockIndex} = await sdk.collection.setPropertyPermissions.submitWaitResult
   const txSetPermissions = await sdk.collection.setPropertyPermissions.submitWaitResult({
     address,
     collectionId,
@@ -52,6 +53,7 @@ async function main() {
       },
     ],
   })
+  // console.log(`${block.header.number} ${blockIndex} ${hash}`)
 
   ////////////////////////////////////
   // Show collection permissions that were set
