@@ -12,6 +12,7 @@
     "set-token-properties": "yarn build && node ./dist/setTokenProperties.js",
     "set-collection-transfers-enabled-limit": "yarn build && node ./dist/setCollectionTransfersEnabledLimit.js",
     "set-collection-limits": "yarn build && node ./dist/setCollectionLimits.js",
+    "approve-token-spender": "yarn build && node ./dist/approveTokenSpender.js",
     "transfer-token": "yarn build && node ./dist/transferToken.js",
     "transfer-collection": "yarn build && node ./dist/transferCollection.js",
     "get-token": "yarn build && node ./dist/getToken.js",

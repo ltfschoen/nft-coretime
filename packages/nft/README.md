@@ -22,7 +22,8 @@ yarn run add-tokens-to-collection
 yarn run get-token
 yarn run set-collection-transfers-enabled-limit
 yarn run set-collection-limits
-yarn run transfer-coken
+yarn run approve-token-spender
+yarn run transfer-token
 yarn run transfer-collection
 yarn run burn-token
 ```
