@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 dotenv.config();
-import Sdk, { TokenId } from '@unique-nft/sdk'
+import Sdk, { CHAIN_CONFIG, TokenId } from '@unique-nft/sdk'
 import {KeyringProvider} from '@unique-nft/accounts/keyring'
 import { BurnTokenArguments } from '@unique-nft/substrate-client/tokens'
 
@@ -23,7 +23,7 @@ async function main() {
   const address = account.address
 
   const sdk = new Sdk({
-    baseUrl: 'https://rest.unique.network/opal/v1', 
+    baseUrl: CHAIN_CONFIG.opal.restUrl, 
     signer: account,
   })
   console.log('sdk', sdk)
