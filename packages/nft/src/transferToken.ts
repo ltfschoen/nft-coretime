@@ -2,7 +2,11 @@ import dotenv from "dotenv";
 dotenv.config();
 import Sdk, { CHAIN_CONFIG, TokenId } from '@unique-nft/sdk'
 import {KeyringProvider} from '@unique-nft/accounts/keyring'
-import { TransferArguments } from '@unique-nft/substrate-client/tokens';
+import { TokenOwnerArguments,
+  TokenOwnerResult,
+  TransferArguments,
+} from '@unique-nft/substrate-client/tokens';
+import { AllowanceArguments } from '@unique-nft/substrate-client/tokens';
 
 ////////////////////////////////////
 ///
@@ -21,9 +25,10 @@ async function main() {
   const mnemonic = process.env.WALLET_SEED ?? ""
   const account = await KeyringProvider.fromMnemonic(mnemonic)
   const address = account.address
+  console.log('address: ' + address)
 
   const sdk = new Sdk({
-    baseUrl: CHAIN_CONFIG.opal.restUrl, 
+    baseUrl: CHAIN_CONFIG.quartz.restUrl, 
     signer: account,
   })
   console.log('sdk', sdk)
@@ -31,17 +36,40 @@ async function main() {
   ////////////////////////////////////
   // Add the collection ID and token ID below 
   ////////////////////////////////////
-  const collectionId = 2677 as number
+  const collectionId = 827 as number
   const tokenId = 1
 
   ////////////////////////////////////
   // Transfer token 
   ////////////////////////////////////
+
+  // const args: TokenOwnerArguments = {
+  //   collectionId: 827,
+  //   tokenId: 1,
+  //   // blockHashAt: '0xff19c2457fa4d7216cfad444615586c4365250e7310e2de7032ded4fcbd36873'
+  // };
+  
+  // const result: TokenOwnerResult = await sdk.token.owner(
+  //   args,
+  // );
+  // console.log('result', result)
+
+  // const AllowanceArgs: AllowanceArguments = {
+  //     from: '5Chai5UGBHXFrXXcHtDypVWdvHnjrny2rDtfa9RHbM3JGpCw',
+  //     to: '5Chai5UGBHXFrXXcHtDypVWdvHnjrny2rDtfa9RHbM3JGpCw',
+  //     collectionId: 827,
+  //     tokenId: 1,
+  // };
+  
+  // const { isAllowed } = await sdk.token.allowance(AllowanceArgs);
+  // console.log('isAllowed', isAllowed)
+
   const args: TransferArguments = {
     collectionId,
     tokenId,
     address,
-    to: address,
+    to: "HTwmmHjH8ofGrHoKuJrFHciejdx4SRJw7vrqyUREDGeY7oF",
+    from: address,
     // from: '', // optional `from` account
   };
   const txTransfer = await sdk.token.transfer.submitWaitResult(args)
