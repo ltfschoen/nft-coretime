@@ -1,7 +1,8 @@
 import dotenv from "dotenv";
 dotenv.config();
 import Sdk, { CHAIN_CONFIG, TokenId } from '@unique-nft/sdk'
-import {KeyringProvider} from '@unique-nft/accounts/keyring'
+import { KeyringProvider } from '@unique-nft/accounts/keyring'
+import { KeyringOptions } from '@polkadot/keyring/types';
 
 ////////////////////////////////////
 ///
@@ -18,11 +19,17 @@ import {KeyringProvider} from '@unique-nft/accounts/keyring'
 ////////////////////////////////////
 async function main() {
   const mnemonic = process.env.WALLET_SEED ?? ""
-  const account = await KeyringProvider.fromMnemonic(mnemonic)
+  const keyringOptions: KeyringOptions = {
+    /** The ss58Format to use for address encoding (defaults to 42) */
+    ss58Format: CHAIN_CONFIG.quartz.ss58Prefix, // Quartz network https://polkadot.js.org/apps/?rpc=wss%3A%2F%2Fus-ws-quartz.unique.network#/settings/metadata
+    /** The type of keyring to create (defaults to ed25519) */
+    type: 'sr25519',
+}
+  const account = await KeyringProvider.fromMnemonic(mnemonic, keyringOptions)
   const address = account.address
 
   const sdk = new Sdk({
-    baseUrl: CHAIN_CONFIG.opal.restUrl, 
+    baseUrl: CHAIN_CONFIG.quartz.restUrl, 
     signer: account,
   })
   console.log('sdk', sdk)
@@ -30,16 +37,21 @@ async function main() {
   ////////////////////////////////////
   // Add the collection ID and token ID below 
   ////////////////////////////////////
-  const collectionId = 2691 as number
-  const tokenId = 3
+  // const collectionId = 2691 as number
+  // const tokenId = 3
+  const nft = { collectionId: 827, tokenId: 1 };
 
   ////////////////////////////////////
   // Get token 
   ////////////////////////////////////
   const txGetToken = await sdk.token.get({
-    collectionId,
-    tokenId,
+    collectionId: nft.collectionId,
+    tokenId: nft.tokenId,
   })
+
+  const { owner } = await sdk.token.owner(nft);
+  console.log(`signer: ${address}, actual owner: ${owner}`)
+  if (address !== owner) throw Error("The signer is not the owner");
 
   if (txGetToken) {
     console.log(`Token: `, JSON.stringify(txGetToken, null, 2))
