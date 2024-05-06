@@ -1,8 +1,9 @@
 import dotenv from "dotenv";
 dotenv.config();
-import Sdk, { CHAIN_CONFIG, TokenId } from '@unique-nft/sdk'
-import {KeyringProvider} from '@unique-nft/accounts/keyring'
+import Sdk, { CHAIN_CONFIG, MutationOptions, TokenId } from '@unique-nft/sdk'
+import { KeyringProvider } from '@unique-nft/accounts/keyring'
 import { ApproveArguments } from '@unique-nft/substrate-client/tokens';
+import { KeyringOptions } from '@polkadot/keyring/types';
 
 ////////////////////////////////////
 ///
@@ -19,12 +20,21 @@ import { ApproveArguments } from '@unique-nft/substrate-client/tokens';
 ////////////////////////////////////
 async function main() {
   const mnemonic = process.env.WALLET_SEED ?? ""
-  const account = await KeyringProvider.fromMnemonic(mnemonic)
-  const address = account.address
+  const keyringOptions: KeyringOptions = {
+    /** The ss58Format to use for address encoding (defaults to 42) */
+    ss58Format: CHAIN_CONFIG.quartz.ss58Prefix, // Quartz network https://polkadot.js.org/apps/?rpc=wss%3A%2F%2Fus-ws-quartz.unique.network#/settings/metadata
+    /** The type of keyring to create (defaults to ed25519) */
+    type: 'sr25519',
+  }
+  const ownerAccount = await KeyringProvider.fromMnemonic(mnemonic, keyringOptions);
+  const ownerAddress = ownerAccount.address
+
+  // Coretime Token 1
+  const spenderAddress = "HTwmmHjH8ofGrHoKuJrFHciejdx4SRJw7vrqyUREDGeY7oF";
 
   const sdk = new Sdk({
     baseUrl: CHAIN_CONFIG.quartz.restUrl, 
-    signer: account,
+    signer: ownerAccount,
   })
   console.log('sdk', sdk)
 
@@ -32,32 +42,34 @@ async function main() {
   // Add the collection ID and token ID below 
   ////////////////////////////////////
   const collectionId = 827 as number
+  // Coretime Token 1
   const tokenId = 1
 
   ////////////////////////////////////
   // Approve token spender
   ////////////////////////////////////
 
-  const approvedSpender = 'HTwmmHjH8ofGrHoKuJrFHciejdx4SRJw7vrqyUREDGeY7oF'
-  const approveArgs: ApproveArguments = {
-    address: '5Chai5UGBHXFrXXcHtDypVWdvHnjrny2rDtfa9RHbM3JGpCw',
+  const args: ApproveArguments = {
+    address: ownerAddress,
     // Account address for whom token will be approved
-    spender: approvedSpender,
+    spender: spenderAddress,
     collectionId,
     tokenId,
     isApprove: true
-};
+  };
+  const options: MutationOptions = {
+    signer: ownerAccount,
+  }
+  const result = await sdk.token.approve.submitWaitResult(args, options);
+  const { isCompleted } = result;
+  // console.log('result', result)
 
-const result = await sdk.token.approve.submitWaitResult(approveArgs);
-const { isCompleted } = result;
-// console.log('result', result)
-
-if (isCompleted) {
-  console.log(`${approvedSpender} is the a new approved spender of token ${result.parsed?.tokenId} from collection ${result.parsed?.collectionId}`)
-} else {
-  console.log(`Unable to set new approved spender`)
-  process.exit()
-}
+  if (isCompleted) {
+    console.log(`${spenderAddress} is the a new approved spender of token ${result.parsed?.tokenId} from collection ${result.parsed?.collectionId}`)
+  } else {
+    console.log(`Unable to set new approved spender`)
+    process.exit()
+  }
 
   process.exit()
 }

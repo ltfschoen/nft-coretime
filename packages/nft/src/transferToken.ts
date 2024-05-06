@@ -1,12 +1,11 @@
 import dotenv from "dotenv";
 dotenv.config();
-import Sdk, { CHAIN_CONFIG, TokenId } from '@unique-nft/sdk'
-import {KeyringProvider} from '@unique-nft/accounts/keyring'
-import { TokenOwnerArguments,
-  TokenOwnerResult,
+import Sdk, { CHAIN_CONFIG, MutationOptions, TokenId } from '@unique-nft/sdk'
+import { KeyringProvider } from '@unique-nft/accounts/keyring'
+import {
   TransferArguments,
 } from '@unique-nft/substrate-client/tokens';
-import { AllowanceArguments } from '@unique-nft/substrate-client/tokens';
+import { KeyringOptions } from '@polkadot/keyring/types';
 
 ////////////////////////////////////
 ///
@@ -18,61 +17,64 @@ import { AllowanceArguments } from '@unique-nft/substrate-client/tokens';
 ///   - Change `collectionId` value to the collection id that you deployed
 ///   - Change `tokenId` value to the token id in that collection (initial token id is 1)
 ///
-/// For example, in this URL, https://uniquescan.io/opal/tokens/2677/1
-/// the 2677 is the `collectionId` value and `1` is the `tokenId` value.
+/// For example, in this URL, https://uniquescan.io/quartz/tokens/827/1
+/// the 827 is the `collectionId` value and `1` is the `tokenId` value.
 ////////////////////////////////////
 async function main() {
   const mnemonic = process.env.WALLET_SEED ?? ""
-  const account = await KeyringProvider.fromMnemonic(mnemonic)
-  const address = account.address
-  console.log('address: ' + address)
+  // Important: It is essential to use the correct `KeyringOptions` for the signed when initializing the SDK
+  // otherwise it will say you do not have permission to transfer tokens
+  const keyringOptions: KeyringOptions = {
+    /** The ss58Format to use for address encoding (defaults to 42) */
+    ss58Format: CHAIN_CONFIG.quartz.ss58Prefix, // Quartz network https://polkadot.js.org/apps/?rpc=wss%3A%2F%2Fus-ws-quartz.unique.network#/settings/metadata
+    /** The type of keyring to create (defaults to ed25519) */
+    type: 'sr25519',
+  }
+  const ownerAccount = await KeyringProvider.fromMnemonic(mnemonic, keyringOptions)
+  const ownerAddress = ownerAccount.address
+  console.log('ownerAddress: ' + ownerAddress)
+
+  // Coretime Token 1
+  const spenderAddress = "HTwmmHjH8ofGrHoKuJrFHciejdx4SRJw7vrqyUREDGeY7oF";
 
   const sdk = new Sdk({
     baseUrl: CHAIN_CONFIG.quartz.restUrl, 
-    signer: account,
+    signer: ownerAccount,
   })
   console.log('sdk', sdk)
 
   ////////////////////////////////////
   // Add the collection ID and token ID below 
   ////////////////////////////////////
-  const collectionId = 827 as number
-  const tokenId = 1
+  const nft = {
+    collectionId: 827,
+    tokenId: 3
+  };
+
+  const { owner } = await sdk.token.owner(nft);
+  console.log(`signer: ${ownerAddress}, actual owner: ${owner}`)
+  if (ownerAddress !== owner) throw Error("The signer is not the owner");
 
   ////////////////////////////////////
   // Transfer token 
+  //
+  // To transfer a token from an owner to a new owner recipient.
+  // - First approve the recipient as the spender of each token id by configuring and running `approveTokenSpender`
+  //
   ////////////////////////////////////
 
-  // const args: TokenOwnerArguments = {
-  //   collectionId: 827,
-  //   tokenId: 1,
-  //   // blockHashAt: '0xff19c2457fa4d7216cfad444615586c4365250e7310e2de7032ded4fcbd36873'
-  // };
-  
-  // const result: TokenOwnerResult = await sdk.token.owner(
-  //   args,
-  // );
-  // console.log('result', result)
-
-  // const AllowanceArgs: AllowanceArguments = {
-  //     from: '5Chai5UGBHXFrXXcHtDypVWdvHnjrny2rDtfa9RHbM3JGpCw',
-  //     to: '5Chai5UGBHXFrXXcHtDypVWdvHnjrny2rDtfa9RHbM3JGpCw',
-  //     collectionId: 827,
-  //     tokenId: 1,
-  // };
-  
-  // const { isAllowed } = await sdk.token.allowance(AllowanceArgs);
-  // console.log('isAllowed', isAllowed)
-
-  const args: TransferArguments = {
-    collectionId,
-    tokenId,
-    address,
-    to: "HTwmmHjH8ofGrHoKuJrFHciejdx4SRJw7vrqyUREDGeY7oF",
-    from: address,
+  const argsTx: TransferArguments = {
+    collectionId: nft.collectionId,
+    tokenId: nft.tokenId,
+    address: ownerAddress,
+    to: spenderAddress,
+    from: ownerAddress,
     // from: '', // optional `from` account
   };
-  const txTransfer = await sdk.token.transfer.submitWaitResult(args)
+  const options: MutationOptions = {
+    signer: ownerAccount,
+  }
+  const txTransfer = await sdk.token.transfer.submitWaitResult(argsTx, options)
 
   const parsedTransfer = txTransfer.parsed
 
@@ -80,8 +82,8 @@ async function main() {
     from collection ${parsedTransfer?.collectionId}`)
 
   const txGetToken = await sdk.token.get({
-    collectionId,
-    tokenId,
+    collectionId: nft.collectionId,
+    tokenId: nft.tokenId,
   })
 
   if (txGetToken) {

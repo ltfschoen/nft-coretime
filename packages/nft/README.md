@@ -22,6 +22,7 @@ yarn run add-tokens-to-collection
 yarn run get-token
 yarn run set-collection-transfers-enabled-limit
 yarn run set-collection-limits
+yarn run get-allowance
 yarn run approve-token-spender
 yarn run transfer-token
 yarn run transfer-collection
@@ -29,13 +30,6 @@ yarn run burn-token
 ```
 * Note: Mint collection fee ~2 OPL, and mint token costs ~0.1 OPL
 * View the tokens minted by going to https://uniquescan.io/opal
-
-* TODO
-  * in "Advanced Data"
-  * how to change sponsored mint size to number other than 2048? 
-  * how to change "Token limit" to number other than 4294967295?
-  * how to change "Account token ownership limit" to number other than 100000000?
-  https://uniquescan.io/opal/collections/2677
 
 ## Unique Network Resources & Support
 
