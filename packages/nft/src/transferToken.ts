@@ -24,6 +24,7 @@ async function main() {
   const mnemonic = process.env.WALLET_SEED ?? ""
   // Important: It is essential to use the correct `KeyringOptions` for the signed when initializing the SDK
   // otherwise it will say you do not have permission to transfer tokens
+  // Note: Alternative approach is shown here: https://github.com/UniqueNetwork/unique_docs/issues/150
   const keyringOptions: KeyringOptions = {
     /** The ss58Format to use for address encoding (defaults to 42) */
     ss58Format: CHAIN_CONFIG.quartz.ss58Prefix, // Quartz network https://polkadot.js.org/apps/?rpc=wss%3A%2F%2Fus-ws-quartz.unique.network#/settings/metadata
