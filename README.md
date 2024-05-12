@@ -31,21 +31,3 @@ Add a package to frontend
 ```bash
 yarn add dotenv
 ```
-
-## Unique Network NFTs
-
-### Deploy and interact with NFTs
-
-```bash
-cd packages/nft
-```
-
-Run the commands mentioned in the [NFT README](./packages/nft/README.md]
-
-## Upload to Pinata pinned IPFS CID
-
-```bash
-cd packages/nft
-```
-
-Refer to [NFT README](./packages/nft/README.md]
